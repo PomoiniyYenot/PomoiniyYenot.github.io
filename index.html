@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Mono — Налаштування</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      background: #f7f7f7;
+    }
+    h2 {
+      text-align: center;
+      color: #444;
+    }
+    label {
+      font-weight: bold;
+      margin-top: 10px;
+      display: block;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin: 5px 0 15px 0;
+      font-size: 16px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      font-size: 18px;
+      background-color: #6200ee;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .note {
+      font-size: 13px;
+      color: #666;
+      margin-top: -10px;
+      margin-bottom: 20px;
+    }
+    .info-text {
+      background: #eee;
+      padding: 10px;
+      margin-top: 20px;
+      font-size: 14px;
+      border-left: 3px solid #888;
+    }
+  </style>
+</head>
+<body>
+  <h2>Mono ;)</h2>
+
+  <label for="apikey">Токен Monobank:</label>
+  <input type="text" id="apikey" placeholder="Тільки англ. букви та цифри">
+  <div class="note">Створити токен можна тут: <a href="https://api.monobank.ua" target="_blank">api.monobank.ua</a></div>
+
+  <label for="cardnum">Номер карти (16 цифр):</label>
+  <input type="number" id="cardnum" placeholder="наприклад, 4444555566667777">
+
+  <button onclick="save()">Зберегти</button>
+
+  <div class="info-text">
+    <p>1. Допомогти мені гривнею та проявити свою щедрість або вдячність є можливість за посиланням у QR-коді під головним екраном.</p>
+    <p>2. Ідеї, скарги, питання чекаю в телеграмі. Посилання у QR-коді під карткою.</p>
+  </div>
+
+  <script>
+    function save() {
+      const settings = {
+        APIkey: document.getElementById("apikey").value.trim(),
+        cardNumber: document.getElementById("cardnum").value.trim()
+      };
+      const json = encodeURIComponent(JSON.stringify(settings));
+      document.location = "pebblejs://close#" + json;
+    }
+  </script>
+</body>
+</html>
