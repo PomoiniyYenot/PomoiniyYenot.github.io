@@ -78,24 +78,41 @@
   </script>
   <script>
   window.onload = function () {
-    if (location.hash && location.hash.length > 1) {
-      try {
-        const data = JSON.parse(decodeURIComponent(location.hash.substr(1)));
+  if (location.hash && location.hash.length > 1) {
+    try {
+      const data = JSON.parse(decodeURIComponent(location.hash.substr(1)));
+      if (data.APIkey) document.getElementById("apikey").value = data.APIkey;
+      if (data.cardNumber) document.getElementById("cardnum").value = data.cardNumber;
 
-        if (data.APIkey) {
-          document.getElementById("apikey").value = data.APIkey;
-        }
-        if (data.cardNumber) {
-          document.getElementById("cardnum").value = data.cardNumber;
-        }
-      } catch (e) {
-        console.warn("Не удалось распарсить хеш:", e);
-      }
+      // сохраним в localStorage (браузера)
+      localStorage.setItem("saved_APIkey", data.APIkey || "");
+      localStorage.setItem("saved_cardNumber", data.cardNumber || "");
+    } catch (e) {
+      console.warn("Хеш не читается");
     }
+  } else {
+    // если хеш не пришёл — берём из памяти браузера
+    document.getElementById("apikey").value = localStorage.getItem("saved_APIkey") || "";
+    document.getElementById("cardnum").value = localStorage.getItem("saved_cardNumber") || "";
+  }
   };
-  </script>
-  <script>
-    console.log("HASH:", location.hash);
+
+  function save() {
+    const apiKey = document.getElementById("apikey").value.trim();
+    const cardNum = document.getElementById("cardnum").value.trim();
+
+    // сохраняем в localStorage сайта
+    localStorage.setItem("saved_APIkey", apiKey);
+    localStorage.setItem("saved_cardNumber", cardNum);
+
+    const settings = {
+      APIkey: apiKey,
+      cardNumber: cardNum
+    };
+
+    const json = encodeURIComponent(JSON.stringify(settings));
+    document.location = "pebblejs://close#" + json;
+  }
   </script>
 </body>
 </html>
