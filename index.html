@@ -75,5 +75,23 @@
       document.location = "pebblejs://close#" + json;
     }
   </script>
+  <script>
+  window.onload = function () {
+    if (location.hash && location.hash.length > 1) {
+      try {
+        const data = JSON.parse(decodeURIComponent(location.hash.substr(1)));
+
+        if (data.APIkey) {
+          document.getElementById("apikey").value = data.APIkey;
+        }
+        if (data.cardNumber) {
+          document.getElementById("cardnum").value = data.cardNumber;
+        }
+      } catch (e) {
+        console.warn("Не удалось распарсить хеш:", e);
+      }
+    }
+  };
+  </script>
 </body>
 </html>
